@@ -90,16 +90,16 @@ namespace KanColleQuestViewer
 				gs_Find_UpdateTime, 
 				gs_Find_UpdateTime_end);
 			#region 将更新时间字符串转化为DateTime形变量
-			System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
-			//TODO:编码转换
-			//string s = "这里是测试字符串";Unicode UTF8
-			//string utf8_string = Encoding.UTF8.GetString(Encoding.Default.GetBytes(s));
+			//System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
+			////TODO:编码转换
+			////string s = "这里是测试字符串";Unicode UTF8
+			////string utf8_string = Encoding.UTF8.GetString(Encoding.Default.GetBytes(s));
 			
-			string utf8_string = Encoding.Unicode.GetString(Encoding.Convert(Encoding.UTF8 ,Encoding.Unicode,Encoding.UTF8.GetBytes(gs_UpdateTime)));
-			DateTime.TryParseExact(utf8_string, "yyyy年MM月dd日hh:mm", 
-				zhCN, 
-				System.Globalization.DateTimeStyles.None,
-				out KanColleQuest.UpdateTime);
+			//string utf8_string = Encoding.Unicode.GetString(Encoding.Convert(Encoding.UTF8 ,Encoding.Unicode,Encoding.UTF8.GetBytes(gs_UpdateTime)));
+			//DateTime.TryParseExact(utf8_string, "yyyy年MM月dd日hh:mm", 
+			//	zhCN, 
+			//	System.Globalization.DateTimeStyles.None,
+			//	out KanColleQuest.UpdateTime);
 			//KanColleQuest.UpdateTime = DateTime.Parse(gs_UpdateTime);
 			#endregion
 
