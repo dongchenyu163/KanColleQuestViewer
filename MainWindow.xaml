@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:KanColleQuestViewer"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-		<TextBox x:Name="Tx_Res" HorizontalAlignment="Left" Height="265" Margin="60,29,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="420" AcceptsReturn="True"/>
+	<Grid>
+		<TextBox x:Name="Tx_Res" Margin="0,29,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" AcceptsReturn="True"/>
 
 	</Grid>
 </Window>

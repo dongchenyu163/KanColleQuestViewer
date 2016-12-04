@@ -23,7 +23,7 @@ namespace KanColleQuestViewer
 		public static string gs_url= @"https://zh.moegirl.org/%E8%88%B0%E9%98%9FCollection/%E4%BB%BB%E5%8A%A1#.E6.94.B9.E8.A3.85";
 		public static string gs_HTTP_Res;
 
-		public static string gs_Find_UpdateTime = ">此页面的内容及资料需要长期更新，现存条目中资料未必是最新。<li>本条目的<b>最后</b>更新时间为<b><u>";
+		public static string gs_Find_UpdateTime = "<b><u>";
 		public static string gs_Find_UpdateTime_end = "</u>";
 		string gs_Find_Quest = "<td id=\"";
 		string gs_Find_Quest_end = "</tr>";
@@ -35,11 +35,17 @@ namespace KanColleQuestViewer
 			InitializeComponent();
 
 			gs_HTTP_Res = HTTP.GetHtmlContent(gs_url,Encoding.UTF8);
-
-			GetMidString(gs_HTTP_Res, ref gs_UpdateTime, gs_Find_Quest, gs_Find_Quest_end);
-			Tx_Res.Text = gs_UpdateTime;
-
+			
 			HTML_StringProcess();
+
+			Tx_Res.Text = "";
+
+			for (int i = 0; i < KanColleQuest.Quests.Count; i++)
+			{
+				Tx_Res.Text += i.ToString()+
+					"["+ KanColleQuest.Quests[i].ID+ "]" + ".\t" + 
+					KanColleQuest.Quests[i].OtherInfoOfQuest + "\n";
+			}
 		}
 
 		/// <summary>
@@ -83,6 +89,19 @@ namespace KanColleQuestViewer
 				ref gs_UpdateTime, 
 				gs_Find_UpdateTime, 
 				gs_Find_UpdateTime_end);
+			#region 将更新时间字符串转化为DateTime形变量
+			System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
+			//TODO:编码转换
+			//string s = "这里是测试字符串";Unicode UTF8
+			//string utf8_string = Encoding.UTF8.GetString(Encoding.Default.GetBytes(s));
+			
+			string utf8_string = Encoding.Unicode.GetString(Encoding.Convert(Encoding.UTF8 ,Encoding.Unicode,Encoding.UTF8.GetBytes(gs_UpdateTime)));
+			DateTime.TryParseExact(utf8_string, "yyyy年MM月dd日hh:mm", 
+				zhCN, 
+				System.Globalization.DateTimeStyles.None,
+				out KanColleQuest.UpdateTime);
+			//KanColleQuest.UpdateTime = DateTime.Parse(gs_UpdateTime);
+			#endregion
 
 			while (true)
 			{
