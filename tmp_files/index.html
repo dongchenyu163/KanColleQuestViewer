@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<!-- saved from url=(0147)https://tpc.googlesyndication.com/sadbundle/16640333863768790021/index.html?csp=er3#t=6469429538507855478&p=https%3A%2F%2Ftpc.googlesyndication.com -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>WoWS_Steven</title><meta charset="utf-8"><meta content="width=728,height=90" name="ad.size"><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>
+			*{margin:0px;padding:0px;}
+			body{
+				margin:0;
+				padding:0;
+				overflow:hidden;
+				background-color: #fafafa;
+			}
+			canvas{
+				cursor:hand;
+				cursor:pointer;
+				display:block;
+			}
+		</style></head><body>
+
+	
+		
+		
+		
+		
+		
+		
+		
+			
+		<canvas height="90" id="stage" style="position: absolute; left: 0; top: 0;" width="728"></canvas>	
+		
+		
+		<script src="exitapi-impl.js" type="text/javascript"></script><script src="addata.js" type="text/javascript"></script>
+
+		<script src="WebFont.js" type="text/javascript"></script>
+		
+		<script src="tweenlite_1.18.0_56fa823cfbbef1c2f4d4346f0f0e6c3c_min.js" type="text/javascript"></script>
+		<script src="easepack_1.18.0_ed5816e732515f56d96a67f6a2a15ccb_min.js" type="text/javascript"></script>
+		
+		<script src="storm.js" type="text/javascript"></script>
+		
+		<script>
+			var objTexts={
+				t_0_0:"スティーヴン ・セガール",
+				t_0_1:"からの招待状<n>",	
+				
+				t_1_0:"戦略を練って<n>攻め込むか<n>",
+				
+				t_2_0:"あるいは<n>反撃に徹するか<n>",
+
+				t_3_0:"スティーヴン",
+				t_3_1:"・セガール",	
+				t_3_2:"と挑む艦隊戦！",	
+				
+				text_btn:"参戦はここから"
+			}			
+			
+			var i,j,k,tm;
+			var stateUser=false;
+			
+			// AVAILABLE OPTIONS: cyrillic, latin, greek, vietnamese, thai, arabic, korean, japanese, chinese
+			webFont.currentFont = webFont.japanese; 
+			var font = webFont.currentFont.font;
+			
+			window.onLoad = loadFonts();
+			function start() {
+				Storm.init({
+					elementId:"stage",
+					width:document.getElementById("stage").width,
+					height:document.getElementById("stage").height,
+					retina:false,
+					graphics:[
+							"bg_0.jpg",
+							"bg_1.jpg",
+							"btn.png",
+							"pattern_0.png",
+							"hero_0_0.png",
+							"hero_0_1.png",
+							"hero_0_2.png",	
+							"hero_0_3.png",
+							"hero_0_4.png",
+							"hero_1_0.png",
+							"hero_1_1.png",
+							"hero_1_2.png",
+							"hero_1_3.png",
+							"hero_2_0.png",
+							"hero_2_1.png",
+							"hero_2_2.png",
+							"hero_2_3.png",
+							"hero_2_4.png",
+							"hero_2_5.png",
+							"hero_2_6.png",
+							"im_0.png",
+							"im_1.png",
+							"im_2.png",
+							"im_3.png",
+							"light.png",
+							"logo.png"
+						],
+					complete: function(){
+						w=Storm.stageWidth;
+						h=Storm.stageHeight;
+						canvasInteractive=Storm.stage;
+						
+						var gradient0 = Storm.ctx.createLinearGradient(600, 0, 300, 400);
+						gradient0.addColorStop(0.15, "rgb(255, 255, 255)");
+						gradient0.addColorStop(0.72, "rgb(174, 198, 213)");
+						gradient0.addColorStop(0.93, "rgb(255, 255, 255)");
+						
+						var gradient1 = Storm.ctx.createLinearGradient(-200, -200, 400, 400);
+						gradient1.addColorStop(0.24, "rgb(255, 255, 255)");
+						gradient1.addColorStop(0.45, "rgb(174, 198, 213)");
+						
+						//-
+						Storm.obj["mcMain"]=	({x:Storm.stageWidth/2, y:Storm.stageHeight/2});
+						Storm.obj["mcCamera"]=	({});
+						Storm.obj["mcUI"]=		({});
+						
+						//-	
+						Storm.obj["mcFrame_0"]=		({});
+						
+						Storm.obj["mcBg_0"]=	({bitmap:Storm.bitmaps["bg_0"], scaleX:1.07, scaleY:1.07});							
+						Storm.obj["mcLight"]=	({particles:Storm.bitmaps["light"], quantity:20, x:0, y:-100, scaleX:1.3, scaleY:1.3});
+							
+						Storm.obj["mcHero_0"]=	({x:-110, y:40, scaleX:0.55, scaleY:0.55});
+						Storm.obj["mcHero_00"]=	({bitmap:Storm.bitmaps["hero_0_0"]});	
+						Storm.obj["mcHero_01"]=	({x:0, y:-110, rotation:-2});
+							Storm.obj["mcHero_010"]=	({bitmap:Storm.bitmaps["hero_0_1"]});	
+							Storm.obj["mcHero_011"]=	({bitmap:Storm.bitmaps["hero_0_2"]});	
+							Storm.obj["mcHero_012"]=	({bitmap:Storm.bitmaps["hero_0_3"]});	
+						Storm.obj["mcHero_02"]=	({bitmap:Storm.bitmaps["hero_0_4"], x:5, y:5});	
+						
+						Storm.obj["mcHero_1"]=	({x:-105, y:15, scaleX:0.55, scaleY:0.55});
+						Storm.obj["mcHero_10"]=	({bitmap:Storm.bitmaps["hero_1_0"]});	
+						Storm.obj["mcHero_11"]=	({x:60, y:40, scaleX:0.8, scaleY:0.8});
+							Storm.obj["mcHero_110"]=	({bitmap:Storm.bitmaps["hero_1_1"]});	
+							Storm.obj["mcHero_111"]=	({bitmap:Storm.bitmaps["hero_1_2"]});	
+							Storm.obj["mcHero_112"]=	({bitmap:Storm.bitmaps["hero_1_3"]});	
+						Storm.obj["mcHero_12"]=	({bitmap:Storm.bitmaps["hero_0_4"], x:-10, y:55, scaleX:1.1, scaleY:1.1});	
+						
+						Storm.obj["mcIm_0"]=	({x:-220, y:40, scaleX:0.6, scaleY:0.6});							
+						Storm.obj["mcIm_06"]=	({bitmap:Storm.bitmaps["im_2"], scaleX:0.7, x:55, y:-47});	
+						Storm.obj["mcIm_09"]=	({bitmap:Storm.bitmaps["im_2"], tint:0.7, tintColor:"#000000", scaleX:-0.8, x:-0, y:-45});
+						Storm.obj["mcIm_00"]=	({bitmap:Storm.bitmaps["im_0"]});
+						Storm.obj["mcIm_01"]=	({overlay:Storm.bitmaps["im_1"], type:"overlay", x:-30, y:-140, repeatX:3, repeatY:1});	
+						Storm.obj["mcIm_01m"]=	({bitmap:Storm.bitmaps["im_0"]});						
+						Storm.obj["mcIm_02"]=	({overlay:Storm.bitmaps["im_1"], type:"overlay", x:-60, y:-65, repeatX:8, repeatY:2, scaleY:1.05});	
+						Storm.obj["mcIm_02m"]=	({bitmap:Storm.bitmaps["im_0"]});						
+						Storm.obj["mcIm_03"]=	({overlay:Storm.bitmaps["im_1"], type:"overlay", x:-35, y:85, repeatX:3, repeatY:1});	
+						Storm.obj["mcIm_03m"]=	({bitmap:Storm.bitmaps["im_0"]});					
+						Storm.obj["mcIm_04"]=	({bitmap:Storm.bitmaps["im_2"], visible:false, scaleX:0.8, scaleY:0.8, x:55, y:-47});	
+						Storm.obj["mcIm_05"]=	({bitmap:Storm.bitmaps["im_3"], visible:false, scaleX:1.0, x:63, y:-54});
+						
+						Storm.obj["mcHero_2"]=	({x:-70, y:40, scaleX:0.6, scaleY:0.6});
+						Storm.obj["mcHero_21"]=	({x:-20, y:-15});	
+							Storm.obj["mcHero_21_0"]=	({bitmap:Storm.bitmaps["hero_2_4"], x:-50, y:0, tint:0.5, tintColor:"#000000"});
+							Storm.obj["mcHero_21_1"]=	({x:-100});
+								Storm.obj["mcHero_210"]=	({bitmap:Storm.bitmaps["hero_2_1"], y:-5});	
+								Storm.obj["mcHero_211"]=	({bitmap:Storm.bitmaps["hero_2_2"]});
+								Storm.obj["mcHero_212"]=	({bitmap:Storm.bitmaps["hero_2_3"], x:13, y:0});
+						Storm.obj["mcHero_20"]=	({bitmap:Storm.bitmaps["hero_2_0"]});							
+						Storm.obj["mcHero_22"]=	({x:65, y:-40, rotation:-50});	
+							Storm.obj["mcHero_220"]=	({bitmap:Storm.bitmaps["hero_2_4"], x:-Storm.bitmaps["hero_2_4"].width/2});
+							Storm.obj["mcHero_221"]=	({x:-80, y:20, rotation:70});	
+								Storm.obj["mcHero_2210"]=	({bitmap:Storm.bitmaps["hero_2_5"], x:-Storm.bitmaps["hero_2_5"].width/2+20});
+								Storm.obj["mcHero_2211"]=	({bitmap:Storm.bitmaps["hero_2_6"], x:-Storm.bitmaps["hero_2_6"].width/2+20});
+												
+						Storm.obj["mcIm_07"]=	({bitmap:Storm.bitmaps["im_2"], tint:0.7, tintColor:"#000000", scaleX:-0.8, x:-55, y:-45});
+						Storm.obj["mcIm_08"]=	({bitmap:Storm.bitmaps["im_3"], tint:0.7, scaleX:0.1, tintColor:"#000000", x:-95, y:-50});
+						
+						Storm.obj["mcText0"]=	({x:190, y:-10, scaleX:0.8, scaleY:0.8});
+						Storm.obj["mcText0_0"]=	({text:objTexts.t_0_0, color:gradient0, lineWidth:1.8, font:" 20pt "+font, align:"right", valign:"top", x:0, y:0, shadowColor:"rgba(19, 33, 34, 0.8)", shadowBlur:2, shadowOffsetX:1.5, shadowOffsetY:1.5});
+						Storm.obj["mcText0_1"]=	({text:objTexts.t_0_1, color:gradient0, lineWidth:1.8, font:" 20pt "+font, align:"right", valign:"top", x:0, y:35, lineHeight:25, shadowColor:"rgba(19, 33, 34, 0.8)", shadowBlur:2, shadowOffsetX:1.5, shadowOffsetY:1.5});
+
+						Storm.obj["mcText1"]=	({x:190, y:-10, scaleX:0.8, scaleY:0.8});
+						Storm.obj["mcText1_0"]=	({text:objTexts.t_1_0, color:gradient0, lineWidth:1.8, font:" 20pt "+font, align:"right", valign:"top", x:0, y:0, lineHeight:35, shadowColor:"rgba(19, 33, 34, 0.8)", shadowBlur:2, shadowOffsetX:1.5, shadowOffsetY:1.5});
+
+						Storm.obj["mcText2"]=	({x:190, y:-10, scaleX:0.8, scaleY:0.8});
+						Storm.obj["mcText2_0"]=	({text:objTexts.t_2_0, color:gradient0, lineWidth:1.8, font:" 20pt "+font, align:"right", valign:"top", x:0, y:0, lineHeight:35, shadowColor:"rgba(19, 33, 34, 0.8)", shadowBlur:2, shadowOffsetX:1.5, shadowOffsetY:1.5});
+
+						//-						
+						Storm.obj["mcFrame_1"]=		({});
+							Storm.obj["mcBg_1"]=	({bitmap:Storm.bitmaps["bg_1"], scalX:0.95, scaleY:0.95});
+							
+							Storm.obj["mcText3"]=	({x:-90, y:-14, scaleX:1.1, scaleY:1.1});
+							Storm.obj["mcText3_0"]=	({text:objTexts.t_3_0, color:gradient1, font:" 18pt "+font, align:"center", valign:"top", x:-15, y:0,  lineHeight:28,  shadowColor:"rgba(19, 33, 34, 0.8)", shadowBlur:2, shadowOffsetX:1.5, shadowOffsetY:1.5});
+							Storm.obj["mcText3_1"]=	({text:objTexts.t_3_1, color:gradient1, font:" 12pt "+font, align:"right", valign:"top", x:-68, y:28, shadowColor:"rgba(19, 33, 34, 0.8)", shadowBlur:2, shadowOffsetX:1.5, shadowOffsetY:1.5});
+							Storm.obj["mcText3_2"]=	({text:objTexts.t_3_2, color:gradient1, font:" 18pt "+font, align:"left", valign:"top", x:-60, y:26, shadowColor:"rgba(19, 33, 34, 0.8)", shadowBlur:2, shadowOffsetX:1.5, shadowOffsetY:1.5});
+						
+						//-
+						Storm.obj["mcPatternLeft"]=	(	{pattern:Storm.bitmaps["pattern_0"], width:Storm.bitmaps["pattern_0"].width, height:300, x:Storm.bitmaps["pattern_0"].width, y:Storm.stageHeight, scaleX:-1, scaleY:-1});
+						Storm.obj["mcPatternRight"]=	({pattern:Storm.bitmaps["pattern_0"], width:Storm.bitmaps["pattern_0"].width, height:300, x:Storm.stageWidth-Storm.bitmaps["pattern_0"].width});
+						
+						Storm.obj["mcLogo_1"]=	({bitmap:Storm.bitmaps["logo"], x:-310, y:0, scaleX:0.7, scaleY:0.7});
+						
+						Storm.obj["mcBtn"]=		({x:280, y:5});
+						Storm.obj["mcBtnBg"]=	({bitmap:Storm.bitmaps["btn"]});
+						Storm.obj["mcBtnText"]=	({text:objTexts.text_btn, y:-1, color:"#ffffff", font:" 11pt "+font, align:"center", shadowColor:"#fc3b04", shadowBlur:0, shadowOffsetX:0, shadowOffsetY:-2});
+																		
+						Storm.obj["mcBlack"]=	({graphics:"rect", fill:"#000000", width:Storm.stageWidth, height:Storm.stageHeight, x:0, y:0});	
+						
+						//-	
+						Storm.obj["mcBorder"]=	({graphics:"rect", stroke:"#000000", width:Storm.stageWidth, height:Storm.stageHeight, x:0, y:0});	
+						
+						
+						//- Create ---------------------------------------------------------------
+						Storm.CreateDisplayList();
+						
+						//- Event  -----------------------------------------------------------						
+						Storm.obj["mcBtn"].scale0=Storm.obj["mcBtn"].scaleX;
+					
+						Storm.obj["mcBlack"].onClick=function(){							
+							ClickBanner();
+						}
+						Storm.obj["mcBtnBg"].onOver=function(){
+							if(this.stateMouse!="over"){
+								this.stateMouse="over";	
+								stage.style.cursor="hand";
+								stage.style.cursor="pointer";
+								
+								TweenLite.to(Storm.obj["mcBtn"], 0.7, {delay: 0.01, overwrite: "none", scaleX:Storm.obj["mcBtn"].scale0+0.05, scaleY:Storm.obj["mcBtn"].scale0+0.05, ease:Elastic.easeOut});
+							}
+						}
+						Storm.obj["mcBtnBg"].onOut=function(){
+							if(this.alpha>0){
+								this.stateMouse="none";
+								TweenLite.to(Storm.obj["mcBtn"], 0.15, {delay: 0.01, overwrite: "none", scaleX:Storm.obj["mcBtn"].scale0, scaleY:Storm.obj["mcBtn"].scale0});
+							}
+						}
+												
+						//- Position   ---------------------------------------------------------						
+						for(i=0; i<Storm.obj["mcLight"].quantity; i++){
+							Storm.obj["mcLight"].particle[i].x=Storm.obj["mcLight"].particle[i].x0=100-Storm.Random(200);
+							Storm.obj["mcLight"].particle[i].alpha=Storm.obj["mcLight"].particle[i].va=Storm.Random(100)/100;
+							Storm.obj["mcLight"].particle[i].vka=0;
+							Storm.obj["mcLight"].particle[i].vx=(5+Storm.Random(30))*0.007;
+						}
+						
+						//-
+						Storm.obj["mcIm_01"].mask(Storm.obj["mcIm_01m"]);
+						Storm.obj["mcIm_02"].mask(Storm.obj["mcIm_02m"]);
+						Storm.obj["mcIm_03"].mask(Storm.obj["mcIm_03m"]);
+						
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_00"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_01"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_01m"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_02"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_02m"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_03"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_03m"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_04"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_05"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_06"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_07"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_08"]);
+						Storm.obj["mcIm_0"].addChild(Storm.obj["mcIm_09"]);
+						
+						Storm.obj["mcIm_07"].scaleX0=Storm.obj["mcIm_07"].scaleMX0=Storm.obj["mcIm_07"].scaleX;
+						
+						//-
+						Storm.obj["mcHero_0"].addChild(Storm.obj["mcHero_00"]);
+						Storm.obj["mcHero_0"].addChild(Storm.obj["mcHero_01"]);
+						Storm.obj["mcHero_0"].addChild(Storm.obj["mcHero_02"]);
+						Storm.obj["mcHero_01"].addChild(Storm.obj["mcHero_010"]);
+						Storm.obj["mcHero_01"].addChild(Storm.obj["mcHero_011"]);
+						Storm.obj["mcHero_01"].addChild(Storm.obj["mcHero_012"]);
+						
+						Storm.obj["mcHero_1"].addChild(Storm.obj["mcHero_10"]);
+						Storm.obj["mcHero_1"].addChild(Storm.obj["mcHero_11"]);
+						Storm.obj["mcHero_1"].addChild(Storm.obj["mcHero_12"]);
+						Storm.obj["mcHero_11"].addChild(Storm.obj["mcHero_110"]);
+						Storm.obj["mcHero_11"].addChild(Storm.obj["mcHero_111"]);
+						Storm.obj["mcHero_11"].addChild(Storm.obj["mcHero_112"]);
+
+						Storm.obj["mcHero_2"].addChild(Storm.obj["mcHero_20"]);
+						Storm.obj["mcHero_2"].addChild(Storm.obj["mcHero_21"]);
+						Storm.obj["mcHero_2"].addChild(Storm.obj["mcHero_22"]);
+						
+						Storm.obj["mcHero_21"].addChild(Storm.obj["mcHero_21_0"]);
+						Storm.obj["mcHero_21"].addChild(Storm.obj["mcHero_21_1"]);
+						
+						Storm.obj["mcHero_21_1"].addChild(Storm.obj["mcHero_210"]);
+						Storm.obj["mcHero_21_1"].addChild(Storm.obj["mcHero_211"]);
+						Storm.obj["mcHero_21_1"].addChild(Storm.obj["mcHero_212"]);
+						
+						Storm.obj["mcHero_22"].addChild(Storm.obj["mcHero_220"]);
+						Storm.obj["mcHero_22"].addChild(Storm.obj["mcHero_221"]);
+						Storm.obj["mcHero_221"].addChild(Storm.obj["mcHero_2210"]);
+						Storm.obj["mcHero_221"].addChild(Storm.obj["mcHero_2211"]);
+						
+						//-
+						Storm.obj["mcText0"].addChild(Storm.obj["mcText0_0"]);
+						Storm.obj["mcText0"].addChild(Storm.obj["mcText0_1"]);
+						
+						Storm.obj["mcText1"].addChild(Storm.obj["mcText1_0"]);
+						
+						Storm.obj["mcText2"].addChild(Storm.obj["mcText2_0"]);
+						
+						Storm.obj["mcText3"].addChild(Storm.obj["mcText3_0"]);
+						Storm.obj["mcText3"].addChild(Storm.obj["mcText3_1"]);
+						Storm.obj["mcText3"].addChild(Storm.obj["mcText3_2"]);
+						
+						//-
+						Storm.obj["mcBtn"].addChild(Storm.obj["mcBtnBg"]);
+						Storm.obj["mcBtn"].addChild(Storm.obj["mcBtnText"]);
+						
+						//-																			
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcBg_0"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcLight"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcHero_0"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcHero_1"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcHero_2"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcText0"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcText1"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcText2"]);
+						Storm.obj["mcFrame_0"].addChild(Storm.obj["mcIm_0"]);
+					
+						Storm.obj["mcFrame_1"].addChild(Storm.obj["mcBg_1"]);						
+						Storm.obj["mcFrame_1"].addChild(Storm.obj["mcText3"]);
+						
+						Storm.obj["mcCamera"].addChild(Storm.obj["mcFrame_0"]);
+						Storm.obj["mcCamera"].addChild(Storm.obj["mcFrame_1"]);
+						
+						Storm.obj["mcUI"].addChild(Storm.obj["mcBtn"]);
+						Storm.obj["mcUI"].addChild(Storm.obj["mcLogo_1"]);
+						
+						//-
+						Storm.obj["mcMain"].addChild(Storm.obj["mcCamera"]);
+						Storm.obj["mcMain"].addChild(Storm.obj["mcUI"]);
+						
+						//- Save ---------------------------------------------------------------
+						Storm.SaveDisplayList();
+						
+						//- Enter Frame
+						Storm.enterFrame=function(){							
+							//- свет на фоне
+							for(i=0; i<Storm.obj["mcLight"].quantity; i++){
+								Storm.obj["mcLight"].particle[i].x+=Storm.obj["mcLight"].particle[i].vx;
+								
+								if(Storm.obj["mcLight"].particle[i].vka>0.1 && Storm.obj["mcLight"].particle[i].va<0.9){
+									Storm.obj["mcLight"].particle[i].va+=0.1;
+									Storm.obj["mcLight"].particle[i].vka-=0.1;
+								}
+								
+								Storm.obj["mcLight"].particle[i].alpha=Storm.obj["mcLight"].particle[i].va;
+								Storm.obj["mcLight"].particle[i].va-=0.01;
+								
+								if(Storm.obj["mcLight"].particle[i].alpha<0.05){
+									Storm.obj["mcLight"].particle[i].alpha=0;
+									Storm.obj["mcLight"].particle[i].vka=1;
+									Storm.obj["mcLight"].particle[i].va=0;
+									Storm.obj["mcLight"].particle[i].x=Storm.obj["mcLight"].particle[i].x0;
+								}
+							}
+
+							Storm.obj["mcIm_07"].scaleX=Storm.obj["mcIm_07"].scaleX0;	
+							if(Storm.obj["mcIm_07"].scaleX>0 && Storm.obj["mcIm_07"].scaleX<0.2){
+								Storm.obj["mcIm_07"].scaleX=0.2;
+							}else if(Storm.obj["mcIm_07"].scaleX>-0.2 && Storm.obj["mcIm_07"].scaleX<0.01){
+								Storm.obj["mcIm_07"].scaleX=-0.2;
+							}
+						}
+						
+						//- Animation
+						StartAnimation();	
+					}
+				});
+			}
+				
+			function UserStateTrue(){
+				stateUser=true;
+			}
+			
+			function StartAnimation(){
+				Storm.RebootDisplayList();
+				//stage.style.cursor="auto";
+				stateUser=true;
+				
+				tm=0;
+				
+				Storm.obj["mcIm_07"].scaleX0=Storm.obj["mcIm_07"].scaleMX0;
+				
+				//-
+				TweenLite.from(Storm.obj["mcBg_0"],		10.0,	{delay:tm+0.01, overwrite: "none",scaleX:"+=0.05", scaleY:"+=0.05", ease:Linear.easeNone});
+				
+				TweenLite.to(Storm.obj["mcBlack"],		0.4,	{delay:tm+0.01, overwrite: "none", alpha:0});
+				
+				TweenLite.from(Storm.obj["mcBtn"],		0.8,	{delay:tm+0.5, overwrite: "none",  alpha:0, y:"+=60", ease:Expo.easeOut, onComplete:function(){ stateBtn=true; }});
+				
+				TweenLite.from(Storm.obj["mcLogo_1"],		0.1,	{delay:tm+0.5, overwrite: "none",  alpha:0});
+				TweenLite.from(Storm.obj["mcLogo_1"],		0.8,	{delay:tm+0.5, overwrite: "none",  scaleX:0.01, scaleY:0.01, ease:Expo.easeOut});
+								
+				TweenLite.from(Storm.obj["mcHero_0"],	4.0,	{delay:tm+0.01, overwrite: "none", scaleX:"+=0.06", scaleY:"+=0.06", ease:Linear.easeNone});
+				TweenLite.from(Storm.obj["mcHero_02"],	4.0,	{delay:tm+0.01, overwrite: "none", scaleX:"+=0.06", scaleY:"+=0.06", ease:Linear.easeNone});
+				
+				TweenLite.from(Storm.obj["mcHero_0"],	1.2,	{delay:tm+0.01, overwrite: "none", x:"-=30", ease:Expo.easeOut});
+				
+				TweenLite.to(Storm.obj["mcHero_01"],	1.0,	{delay:tm+0.50, overwrite: "none", y:"+=2", rotation:-1, ease:Sine.easeIn});
+				TweenLite.to(Storm.obj["mcHero_011"],	1.0,	{delay:tm+0.50, overwrite: "none", y:"+=1", scaleY:"-=0.01", ease:Sine.easeIn});
+				TweenLite.to(Storm.obj["mcHero_012"],	1.0,	{delay:tm+0.50, overwrite: "none", y:"+=1.5", ease:Sine.easeIn});
+				TweenLite.to(Storm.obj["mcHero_01"],	1.0,	{delay:tm+1.50, overwrite: "none", y:"-=2", rotation:-2,  ease:Sine.easeOut});
+				TweenLite.to(Storm.obj["mcHero_011"],	1.0,	{delay:tm+1.50, overwrite: "none", y:"-=1", scaleY:"+=0.01", ease:Sine.easeOut});
+				TweenLite.to(Storm.obj["mcHero_012"],	1.0,	{delay:tm+1.50, overwrite: "none", y:"-=1.5", ease:Sine.easeOut});
+				
+				TweenLite.from(Storm.obj["mcText0_0"],				0.8,	{delay:tm+0.01, overwrite: "none", alpha:0, x:"-=50", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcText0_1"]["line_0"],	0.8,	{delay:tm+0.11, overwrite: "none", alpha:0, x:"-=50", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcText0_1"]["line_1"],	0.8,	{delay:tm+0.21, overwrite: "none", alpha:0, x:"-=50", ease:Expo.easeOut});
+				
+				tm+=1;
+				
+				//-
+				TweenLite.to(Storm.obj["mcHero_0"],		0.7,	{delay:tm+2.00, overwrite: "none", x:"+=200", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcHero_0"],		0.1,	{delay:tm+2.60, overwrite: "none", alpha:0});
+
+				TweenLite.to(Storm.obj["mcText0_0"],			0.8,	{delay:tm+2.01-0.2, overwrite: "none", alpha:0, x:"+=50", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcText0_1"]["line_0"],	0.8,	{delay:tm+2.11-0.2, overwrite: "none", alpha:0, x:"+=50", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcText0_1"]["line_1"],	0.8,	{delay:tm+2.21-0.2, overwrite: "none", alpha:0, x:"+=50", ease:Expo.easeIn});
+				
+				TweenLite.from(Storm.obj["mcHero_1"],	4.0,	{delay:tm+2.70, overwrite: "none", scaleX:"+=0.06", scaleY:"+=0.06", ease:Linear.easeNone});
+				TweenLite.from(Storm.obj["mcHero_12"],	4.0,	{delay:tm+2.70, overwrite: "none", scaleX:"+=0.06", scaleY:"+=0.06", ease:Linear.easeNone});
+				
+				TweenLite.from(Storm.obj["mcHero_1"],	1.2,	{delay:tm+2.70, overwrite: "none", x:"-=700", ease:Expo.easeOut});				
+
+				TweenLite.from(Storm.obj["mcText1_0"]["line_0"],	0.8,	{delay:tm+2.71, overwrite: "none", alpha:0, x:"-=50", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcText1_0"]["line_1"],	0.8,	{delay:tm+2.81, overwrite: "none", alpha:0, x:"-=50", ease:Expo.easeOut});
+				
+				TweenLite.from(Storm.obj["mcHero_11"],	3.5,	{delay:tm+2.70, overwrite: "none", y:"+=30", ease:Expo.easeOut});	
+				TweenLite.from(Storm.obj["mcHero_110"],	4.5,	{delay:tm+2.70, overwrite: "none", y:"-=10", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcHero_111"],	4.5,	{delay:tm+2.70, overwrite: "none", rotation:"-=4", ease:Expo.easeOut});	
+				TweenLite.from(Storm.obj["mcHero_112"],	4.5,	{delay:tm+2.70, overwrite: "none", y:"-=10", ease:Expo.easeOut});	
+				
+				tm+=1;
+				
+				//-
+				TweenLite.to(Storm.obj["mcHero_1"],		0.7,	{delay:tm+4.70, overwrite: "none", x:"+=200", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcHero_1"],		0.1,	{delay:tm+5.30, overwrite: "none", alpha:0});
+				
+				TweenLite.to(Storm.obj["mcText1_0"]["line_0"],	0.7,	{delay:tm+4.41, overwrite: "none", alpha:0, x:"+=50", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcText1_0"]["line_1"],	0.7,	{delay:tm+4.51, overwrite: "none", alpha:0, x:"+=50", ease:Expo.easeIn});
+				
+				tm+=0.3;
+				TweenLite.from(Storm.obj["mcHero_2"],	4.0,	{delay:tm+5.20, overwrite: "none",scaleX:"+=0.05", scaleY:"+=0.05", ease:Linear.easeNone});
+				TweenLite.to(Storm.obj["mcIm_0"],		4.0,	{delay:tm+5.20, overwrite: "none",scaleX:"-=0.05", scaleY:"-=0.05", ease:Linear.easeNone});
+				
+				TweenLite.from(Storm.obj["mcHero_2"],	1.2,	{delay:tm+5.20, overwrite: "none", x:"-=650", ease:Expo.easeOut});				
+				TweenLite.from(Storm.obj["mcIm_0"],		1.2,	{delay:tm+5.20, overwrite: "none", x:"-=650", ease:Expo.easeOut});				
+				
+				TweenLite.from(Storm.obj["mcText2_0"]["line_0"],	0.8,	{delay:tm+5.21, overwrite: "none", alpha:0, x:"-=50", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcText2_0"]["line_1"],	0.8,	{delay:tm+5.31, overwrite: "none", alpha:0, x:"-=50", ease:Expo.easeOut});
+				
+				TweenLite.from(Storm.obj["mcHero_21"],	0.6,	{delay:tm+5.60, overwrite: "none", rotation:"-=40", x:"+=20", y:"-=20", ease:Expo.easeIn});
+				TweenLite.from(Storm.obj["mcHero_21_1"],0.6,	{delay:tm+5.60, overwrite: "none", rotation:"+=60", x:"+=10", y:"-=10", ease:Expo.easeIn});
+				TweenLite.from(Storm.obj["mcHero_211"],	0.6,	{delay:tm+5.60, overwrite: "none", x:"+=10", y:"+=0", rotation:"-=10", ease:Expo.easeIn});
+				TweenLite.from(Storm.obj["mcHero_22"],	0.6,	{delay:tm+5.60, overwrite: "none", rotation:"+=10", y:"+=0", ease:Expo.easeIn});
+				TweenLite.from(Storm.obj["mcHero_221"],	0.6,	{delay:tm+5.60, overwrite: "none", rotation:"-=30", ease:Expo.easeIn});
+				TweenLite.from(Storm.obj["mcHero_2210"],0.6,	{delay:tm+5.60, overwrite: "none", x:"+=15", y:"+=15", rotation:"-=10", ease:Expo.easeIn});
+							
+				TweenLite.from(Storm.obj["mcIm_02"],	0.8,	{delay:tm+6.1, overwrite: "none", x:"+=60", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcIm_04"],	0.8,	{delay:tm+6.1, overwrite: "none", x:"+=30", y:"+=3", scaleX:"-=0.2", scaleY:"-=0.2", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcIm_05"],	0.8,	{delay:tm+6.1, overwrite: "none", x:"+=20", scaleX:0.01, ease:Expo.easeOut});				
+				TweenLite.from(Storm.obj["mcIm_06"],	0.8,	{delay:tm+6.1, overwrite: "none", x:"-=50", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcIm_07"],	0.8,	{delay:tm+6.1, overwrite: "none", x:"+=100", tint:0, scaleX0:1, ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcIm_08"],	0.8,	{delay:tm+6.1, overwrite: "none", x:"+=190", tint:0, ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcIm_08"],	0.6,	{delay:tm+6.4, overwrite: "none", scaleX:1, ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcIm_09"],	0.8,	{delay:tm+6.1, overwrite: "none", x:"-=40", ease:Expo.easeOut});
+				
+				TweenLite.to(Storm.obj["mcCamera"],		0.1,	{delay:tm+6.1, overwrite: "none", x:"-=10"});
+				TweenLite.to(Storm.obj["mcCamera"],		1.6,	{delay:tm+6.2, overwrite: "none", x:"+=10", ease:Elastic.easeOut});
+				
+				//-
+				TweenLite.to(Storm.obj["mcHero_2"],		0.6,	{delay:tm+8.40, overwrite: "none", x:"+=250", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcIm_0"],		0.6,	{delay:tm+8.40, overwrite: "none", x:"+=250", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcHero_2"],		0.1,	{delay:tm+8.90, overwrite: "none", alpha:0});
+				TweenLite.to(Storm.obj["mcIm_0"],		0.1,	{delay:tm+8.90, overwrite: "none", alpha:0});
+				
+				TweenLite.to(Storm.obj["mcText2_0"]["line_0"],	0.6,	{delay:tm+8.41, overwrite: "none", alpha:0, x:"+=50", ease:Expo.easeIn});
+				TweenLite.to(Storm.obj["mcText2_0"]["line_1"],	0.6,	{delay:tm+8.51, overwrite: "none", alpha:0, x:"+=50", ease:Expo.easeIn});
+				
+				TweenLite.from(Storm.obj["mcBg_1"],		0.3,	{delay:tm+9.01, overwrite: "none",  alpha:0});
+				TweenLite.from(Storm.obj["mcBg_1"],		1.8,	{delay:tm+9.01, overwrite: "none",  scaleX:"+=0.1", scaleY:"+=0.1", ease:Expo.easeOut});
+				
+				TweenLite.from(Storm.obj["mcText3_0"],	0.8,	{delay:tm+10.10, overwrite: "none", alpha:0, y:"+=30", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcText3_1"],	0.8,	{delay:tm+10.20, overwrite: "none", alpha:0, y:"+=30", ease:Expo.easeOut});
+				TweenLite.from(Storm.obj["mcText3_2"],	0.8,	{delay:tm+10.30, overwrite: "none", alpha:0, y:"+=30", ease:Expo.easeOut});
+								
+				TweenLite.to(Storm.obj["mcBlack"],		0.5,	{delay:tm+16.01, overwrite: "none", alpha:1, onComplete:StartAnimation});
+			}
+			
+			//-
+			function ClickBanner(){
+				ExitApi.exit();
+			}
+		</script><div style="display: none; position: absolute; top: 0px; left: 0px;"><canvas id="stageTemp" width="728" height="90" style="display:none;"></canvas></div>
+	
+
+</body></html>

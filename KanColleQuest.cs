@@ -235,7 +235,7 @@ namespace KanColleQuestViewer
 		/// <summary>
 		/// 其他的报酬
 		/// </summary>
-		string OtherRewards;
+		public string OtherRewards;
 
 		public Rewards(int Fu, int Bu, int Steel, int Ba, string Other)
 		{
