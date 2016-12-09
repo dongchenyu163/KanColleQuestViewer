@@ -2,7 +2,7 @@
 <Graph>
 	<Nodes>
 		<Node id="0" name="start" />
-		<Node id="1" name="activity 1" />
+		<Node id="1" name="acti\nvity 1" />
 		<Node id="2" name="task 1" />
 		<Node id="3" name="task 2" />
 		<Node id="4" name="activity 2" />

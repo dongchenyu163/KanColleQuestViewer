@@ -46,7 +46,7 @@ namespace KanColleQuestViewer
 		///// </summary>
 		//Collection<KanColleQuest> nextQuests;
 
-		KanColleQuest(string ID,
+		public KanColleQuest(string ID,
 					string NameOfQuest,
 					string DetailOfQuest,
 					Rewards Rewards,
@@ -96,7 +96,7 @@ namespace KanColleQuestViewer
 			quest_str = quest_str.Substring(_IndexEd);
 			#region 额外的字符处理
 			//TODO: 额外信息 字串 额外的字符处理
-
+			string[] _Del = new string[]{ "<span lang=\"ja\">" ,"</span>" , "<span style=\"color:blue;\">", "<span style=\"color:pink;\">", "<span style=\"color:red;\">", "<span style=\"color:orange;\">" };
 			#endregion
 			#endregion
 
