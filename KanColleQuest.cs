@@ -10,7 +10,7 @@ namespace KanColleQuestViewer
 	class KanColleQuest
 	{
 		public static Collection<KanColleQuest> Quests = new Collection<KanColleQuest>();
-		public static DateTime UpdateTime=new DateTime();
+		public static DateTime UpdateTime = new DateTime();
 		/// <summary>
 		/// 任务编号
 		/// </summary>
@@ -61,7 +61,7 @@ namespace KanColleQuestViewer
 
 		//
 		static bool _isMulRow = false;
-		static string _tmpMulRow_str="";
+		static string _tmpMulRow_str = "";
 		public static void CreateStringProcess(string quest_str)
 		{
 			string _split_1_st = "<td>", _split_1_ed = "</td>";
@@ -95,8 +95,46 @@ namespace KanColleQuestViewer
 			string _Detail = quest_str.Substring(_IndexSt, _IndexEd - _IndexSt);
 			quest_str = quest_str.Substring(_IndexEd);
 			#region 额外的字符处理
-			//TODO: 额外信息 字串 额外的字符处理
-			string[] _Del = new string[]{ "<span lang=\"ja\">" ,"</span>" , "<span style=\"color:blue;\">", "<span style=\"color:pink;\">", "<span style=\"color:red;\">", "<span style=\"color:orange;\">" };
+			//TODO: 详细信息 字串 额外的字符处理
+
+			#region 1、先删除字符
+
+			string[] _Del = new string[]{   "<span lang=\"ja\">" ,
+											"<span style=\"color:blue;\">",
+											"<span style=\"color:pink;\">",
+											"<span style=\"color:red;\">",
+											"<span style=\"color:red; \">",
+											"<span style=\"color:orange;\">",
+											"<span style=\"color:green;\">",
+											"&lt;1&gt;",
+											"</a>",
+											"<b>",
+											"</b>",
+											"\n<p>任務達成的注意事項見表格下方\n</p>",
+											"<p>",
+											"</p>"
+										};
+			#region 删除功能代码
+			for (int i = 0; i < _Del.Length; i++)
+				_Detail=_Detail.Replace(_Del[i], "");
+			//删除超链接，直到没有为止。
+			while (MyString.DelMidString(_Detail, ref _Detail, "<a href=\"", ">", true)) ;
+			while (MyString.DelMidString(_Detail, ref _Detail, "<span class=\"heimu\" title=\"你知道的太多了\">", "</span>", true)) ;
+			//由于删除“你知道的太多了”须要"</span>"来进行定位，故删除"</span>"放到最后执行。
+			_Detail = _Detail.Replace("</span>", "");
+			
+			#endregion
+			#endregion
+
+			#region 2、再替换字符
+
+			//寻找_Replace_Scr中的字符串，替换成_Replace_Res的对应字符串
+			string[] _Replace_Scr = new string[] { "<br />", "<br>","\n\n\n","\n\n" };
+			string[] _Replace_Res = new string[] { "\n","\n","\n","\n" };
+			for (int i = 0; i < _Replace_Scr.Length; i++)
+				_Detail=_Detail.Replace(_Replace_Scr[i], _Replace_Res[i]);
+
+			#endregion
 			#endregion
 			#endregion
 
@@ -153,7 +191,7 @@ namespace KanColleQuestViewer
 			/// 取数据；
 			/// 清除标志位
 			/// </summary>
-			if (_isMulRow==false)
+			if (_isMulRow == false)
 			{
 				_IndexSt = quest_str.IndexOf(_Find_MulRow, 0);
 
@@ -173,8 +211,8 @@ namespace KanColleQuestViewer
 				_IndexEd = quest_str.IndexOf(_split_1_ed, _IndexSt);/*ST*/
 
 				_OtherInfo = quest_str.Substring(_IndexSt, _IndexEd - _IndexSt);/*ST*/
-				if (_isMulRow==true)
-					_tmpMulRow_str=_OtherInfo;	
+				if (_isMulRow == true)
+					_tmpMulRow_str = _OtherInfo;
 			}
 			else
 			{
@@ -244,6 +282,24 @@ namespace KanColleQuestViewer
 			this.Steel = Steel;
 			Bauxite = Ba;
 			OtherRewards = Other;
+		}
+	}
+
+	class LinkInfo
+	{
+		public Collection<Link> preLinkInfo;
+		public Collection<Link> nextLinkInfo;
+	}
+
+	class Link
+	{
+		public string ID;
+		public bool isBelivable;
+
+		public Link(string _ID,bool _isBelivable)
+		{
+			ID = _ID;
+			isBelivable = _isBelivable;
 		}
 	}
 }
