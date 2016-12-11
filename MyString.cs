@@ -22,10 +22,15 @@ namespace KanColleQuestViewer
 			int _IndexEd = -1;
 
 			_IndexSt = src.IndexOf(st, startIndex);//寻找st在src的位置，返回st第一个字符的位置。
+			if (_IndexSt == -1)
+			{
+				res = "";
+				return false;
+			}
 			_IndexSt += st.Length;//开始位置变更至st的末尾
 			_IndexEd = src.IndexOf(ed, _IndexSt);
 
-			if (_IndexSt == -1 || _IndexEd == -1)
+			if (_IndexEd == -1)
 			{
 				res = "";
 				return false;

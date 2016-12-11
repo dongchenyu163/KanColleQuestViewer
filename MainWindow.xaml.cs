@@ -48,8 +48,8 @@ namespace KanColleQuestViewer
 
 			_fS.Read(_tmp, 0, (int)_fS.Length);
 			gs_HTTP_Res = Encoding.UTF8.GetString(_tmp);
-			
-			HTML_StringProcess();
+
+			KanColleQuest.UpdateQuests(gs_HTTP_Res);
 
 			foreach (KanColleQuest _tmp_KCQ in KanColleQuest.Quests)
 				Tx_Res.Text += _tmp_KCQ.ID + ".\t" + _tmp_KCQ.OtherInfoOfQuest + "\n";
@@ -108,52 +108,52 @@ namespace KanColleQuestViewer
 			Tx_Res.Text = ((ShapeNode)sender).Text;
 		}
 
-		private void HTML_StringProcess()
-		{
-			int _IndexSt = 0;
-			int _IndexEd = 0;
-			int _count = 0;
-			string _quest = "";
-			string _copyOf_gs_HTTP_Res = gs_HTTP_Res;
+		//private void HTML_StringProcess()
+		//{
+		//	int _IndexSt = 0;
+		//	int _IndexEd = 0;
+		//	int _count = 0;
+		//	string _quest = "";
+		//	string _copyOf_gs_HTTP_Res = gs_HTTP_Res;
 
-			// 获取更新日期
-			MyString.GetMidString(_copyOf_gs_HTTP_Res,
-				ref gs_UpdateTime,
-				gs_Find_UpdateTime,
-				gs_Find_UpdateTime_end);
-			#region 将更新时间字符串转化为DateTime形变量
-			//System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
-			////TODO:编码转换
-			////string s = "这里是测试字符串";Unicode UTF8
-			////string utf8_string = Encoding.UTF8.GetString(Encoding.Default.GetBytes(s));
+		//	// 获取更新日期
+		//	MyString.GetMidString(_copyOf_gs_HTTP_Res,
+		//		ref gs_UpdateTime,
+		//		gs_Find_UpdateTime,
+		//		gs_Find_UpdateTime_end);
+		//	#region 将更新时间字符串转化为DateTime形变量
+		//	//System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
+		//	////TODO:编码转换
+		//	////string s = "这里是测试字符串";Unicode UTF8
+		//	////string utf8_string = Encoding.UTF8.GetString(Encoding.Default.GetBytes(s));
 
-			//string utf8_string = Encoding.Unicode.GetString(Encoding.Convert(Encoding.UTF8 ,Encoding.Unicode,Encoding.UTF8.GetBytes(gs_UpdateTime)));
-			//DateTime.TryParseExact(utf8_string, "yyyy年MM月dd日hh:mm", 
-			//	zhCN, 
-			//	System.Globalization.DateTimeStyles.None,
-			//	out KanColleQuest.UpdateTime);
-			//KanColleQuest.UpdateTime = DateTime.Parse(gs_UpdateTime);
-			#endregion
+		//	//string utf8_string = Encoding.Unicode.GetString(Encoding.Convert(Encoding.UTF8 ,Encoding.Unicode,Encoding.UTF8.GetBytes(gs_UpdateTime)));
+		//	//DateTime.TryParseExact(utf8_string, "yyyy年MM月dd日hh:mm", 
+		//	//	zhCN, 
+		//	//	System.Globalization.DateTimeStyles.None,
+		//	//	out KanColleQuest.UpdateTime);
+		//	//KanColleQuest.UpdateTime = DateTime.Parse(gs_UpdateTime);
+		//	#endregion
 
-			while (true)
-			{
-				_IndexSt = _copyOf_gs_HTTP_Res.IndexOf(gs_Find_Quest, 0);//寻找st在src的位置，返回st第一个字符的位置。
-				_IndexSt += gs_Find_Quest.Length;//开始位置变更至末尾
-				_IndexEd = _copyOf_gs_HTTP_Res.IndexOf(gs_Find_Quest_end, _IndexSt);
+		//	while (true)
+		//	{
+		//		_IndexSt = _copyOf_gs_HTTP_Res.IndexOf(gs_Find_Quest, 0);//寻找st在src的位置，返回st第一个字符的位置。
+		//		_IndexSt += gs_Find_Quest.Length;//开始位置变更至末尾
+		//		_IndexEd = _copyOf_gs_HTTP_Res.IndexOf(gs_Find_Quest_end, _IndexSt);
 
-				if (_IndexSt == -1 || _IndexEd == -1)
-				{
-					break;
-				}
+		//		if (_IndexSt == -1 || _IndexEd == -1)
+		//		{
+		//			break;
+		//		}
 
-				_count++;
+		//		_count++;
 
-				_quest = _copyOf_gs_HTTP_Res.Substring(_IndexSt, _IndexEd - _IndexSt);
+		//		_quest = _copyOf_gs_HTTP_Res.Substring(_IndexSt, _IndexEd - _IndexSt);
 
-				KanColleQuest.CreateStringProcess(_quest);
-				//删除前面的字符。
-				_copyOf_gs_HTTP_Res = _copyOf_gs_HTTP_Res.Substring(_IndexEd);
-			}
-		}
+		//		KanColleQuest.CreateStringToKanColleQuestClass(_quest);
+		//		//删除前面的字符。
+		//		_copyOf_gs_HTTP_Res = _copyOf_gs_HTTP_Res.Substring(_IndexEd);
+		//	}
+		//}
 	}
 }

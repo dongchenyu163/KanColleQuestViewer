@@ -37,6 +37,8 @@ namespace KanColleQuestViewer
 		/// </summary>
 		public bool isSure = true;
 
+		public LinkInfo LinkInfoOfQuest;
+
 		///// <summary>
 		///// 前置任务
 		///// </summary>
@@ -57,19 +59,22 @@ namespace KanColleQuestViewer
 			this.DetailOfQuest = DetailOfQuest;
 			this.RewardOfQuest = Rewards;
 			this.OtherInfoOfQuest = OtherInfoOfQuest;
+			LinkInfoOfQuest = new LinkInfo();
 		}
+
+
 
 		//
 		static bool _isMulRow = false;
 		static string _tmpMulRow_str = "";
-		public static void CreateStringProcess(string quest_str)
+		public static void CreateStringToKanColleQuestClass(string quest_str)
 		{
 			string _split_1_st = "<td>", _split_1_ed = "</td>";
 			string _split_2_st = "<span lang=\"ja\">", _split_2_ed = "</span>";
 			int _IndexSt = 0;
 			int _IndexEd = 0;
 
-			#region 1、取出 ID
+			#region 1、取出 ID  下一个"为止。
 			_IndexEd = quest_str.IndexOf("\"", 0);
 			string _ID = quest_str.Substring(0, _IndexEd);
 			quest_str = quest_str.Substring(_IndexEd);
@@ -94,6 +99,7 @@ namespace KanColleQuestViewer
 
 			string _Detail = quest_str.Substring(_IndexSt, _IndexEd - _IndexSt);
 			quest_str = quest_str.Substring(_IndexEd);
+
 			#region 额外的字符处理
 			//TODO: 详细信息 字串 额外的字符处理
 
@@ -116,26 +122,27 @@ namespace KanColleQuestViewer
 										};
 			#region 删除功能代码
 			for (int i = 0; i < _Del.Length; i++)
-				_Detail=_Detail.Replace(_Del[i], "");
+				_Detail = _Detail.Replace(_Del[i], "");
 			//删除超链接，直到没有为止。
 			while (MyString.DelMidString(_Detail, ref _Detail, "<a href=\"", ">", true)) ;
 			while (MyString.DelMidString(_Detail, ref _Detail, "<span class=\"heimu\" title=\"你知道的太多了\">", "</span>", true)) ;
 			//由于删除“你知道的太多了”须要"</span>"来进行定位，故删除"</span>"放到最后执行。
 			_Detail = _Detail.Replace("</span>", "");
-			
+
 			#endregion
 			#endregion
 
 			#region 2、再替换字符
 
 			//寻找_Replace_Scr中的字符串，替换成_Replace_Res的对应字符串
-			string[] _Replace_Scr = new string[] { "<br />", "<br>","\n\n\n","\n\n" };
-			string[] _Replace_Res = new string[] { "\n","\n","\n","\n" };
+			string[] _Replace_Scr = new string[] { "<br />", "<br>", "\n\n\n", "\n\n" };
+			string[] _Replace_Res = new string[] { "\n", "\n", "\n", "\n" };
 			for (int i = 0; i < _Replace_Scr.Length; i++)
-				_Detail=_Detail.Replace(_Replace_Scr[i], _Replace_Res[i]);
+				_Detail = _Detail.Replace(_Replace_Scr[i], _Replace_Res[i]);
 
 			#endregion
 			#endregion
+
 			#endregion
 
 			#region 4、取出报酬字串
@@ -143,28 +150,60 @@ namespace KanColleQuestViewer
 			_IndexSt += _split_1_st.Length;
 			_IndexEd = quest_str.IndexOf(_split_1_ed, _IndexSt);
 
-			int _Fu = Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			int _Fu = 0;
+			try
+			{
+				Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			}
+			catch (FormatException e)
+			{
+				_Fu = -1;
+			}
 			quest_str = quest_str.Substring(_IndexEd);
 			/*****************************************************************/
 			_IndexSt = quest_str.IndexOf(_split_1_st, 0);
 			_IndexSt += _split_1_st.Length;
 			_IndexEd = quest_str.IndexOf(_split_1_ed, _IndexSt);
 
-			int _Bu = Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			int _Bu = 0;
+			try
+			{
+				Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			}
+			catch (FormatException e)
+			{
+				_Bu = -1;
+			}
 			quest_str = quest_str.Substring(_IndexEd);
 			/*****************************************************************/
 			_IndexSt = quest_str.IndexOf(_split_1_st, 0);
 			_IndexSt += _split_1_st.Length;
 			_IndexEd = quest_str.IndexOf(_split_1_ed, _IndexSt);
 
-			int _Steel = Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			int _Steel = 0;
+			try
+			{
+				Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			}
+			catch (FormatException e)
+			{
+				_Steel = -1;
+			}
 			quest_str = quest_str.Substring(_IndexEd);
 			/*****************************************************************/
 			_IndexSt = quest_str.IndexOf(_split_1_st, 0);
 			_IndexSt += _split_1_st.Length;
 			_IndexEd = quest_str.IndexOf(_split_1_ed, _IndexSt);
 
-			int _Ba = Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			int _Ba = 0;
+			try
+			{
+				Convert.ToInt32(quest_str.Substring(_IndexSt, _IndexEd - _IndexSt));
+			}
+			catch (FormatException e)
+			{
+				_Ba = -1;
+			}
 			quest_str = quest_str.Substring(_IndexEd);
 			/*****************************************************************/
 			_IndexSt = quest_str.IndexOf(_split_1_st, 0);
@@ -221,8 +260,8 @@ namespace KanColleQuestViewer
 				_isMulRow = false;
 			}
 			//quest_str = quest_str.Substring(_IndexEd);/*ST*/
-			#region 额外的字符处理
-			//TODO: 额外信息 字串 额外的字符处理
+
+			#region 额外的字符处理  移至bool MakeLink() 函数内部处理
 			#endregion
 			#endregion
 
@@ -233,7 +272,259 @@ namespace KanColleQuestViewer
 										_Detail,
 										new Rewards(_Fu, _Bu, _Steel, _Ba, _OtherReward),
 										_OtherInfo));
+		}
 
+		private static string gs_Find_UpdateTime = "><u>";
+		private static string gs_Find_UpdateTime_end = "</u>";
+		private static string gs_Find_Quest = "<td id=\"";
+		private static string gs_Find_Quest_end = "</tr>";
+ 
+		private static string gs_UpdateTime = "";
+		public static bool UpdateQuests(string str_HTTP)
+		{
+			int _IndexSt = 0;
+			int _IndexEd = 0;
+			int _count = 0;
+			string _quest = "";
+
+			// 获取更新日期
+			MyString.GetMidString(str_HTTP,
+				ref gs_UpdateTime,
+				gs_Find_UpdateTime,
+				gs_Find_UpdateTime_end);
+			#region 将更新时间字符串转化为DateTime形变量
+			System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
+			//string utf8_string =	Encoding.Unicode.GetString(Encoding.Convert(
+			//						Encoding.UTF8, 
+			//						Encoding.Unicode, Encoding.UTF8.GetBytes(gs_UpdateTime)));
+			//string sss = "2016年12月03日21:33";
+			DateTime.TryParseExact(gs_UpdateTime, "yyyy年MM月dd日HH:mm（UTC+8）",
+				zhCN,
+				System.Globalization.DateTimeStyles.None,
+				out KanColleQuest.UpdateTime);
+			#endregion
+
+			while (true)
+			{
+				_IndexSt = str_HTTP.IndexOf(gs_Find_Quest, 0);//寻找st在src的位置，返回st第一个字符的位置。
+				_IndexSt += gs_Find_Quest.Length;//开始位置变更至末尾
+				_IndexEd = str_HTTP.IndexOf(gs_Find_Quest_end, _IndexSt);
+
+				if (_IndexSt == -1 || _IndexEd == -1)
+				{
+					break;
+				}
+
+				_count++;
+
+				_quest = str_HTTP.Substring(_IndexSt, _IndexEd - _IndexSt);
+
+				CreateStringToKanColleQuestClass(_quest);
+				//删除前面的字符。
+				str_HTTP = str_HTTP.Substring(_IndexEd);
+			}
+
+			#region 创建任务链
+			MakeLink();
+			#endregion
+
+			#region 将OtherInfoOfQuest里面的标签去掉
+			foreach (var item in Quests)
+			{
+				#region 1、先删除字符
+
+				string[] _Del = new string[]{   "<span lang=\"ja\">" ,
+											"<span style=\"color:blue;\">",
+											"<span style=\"color:pink;\">",
+											"<span style=\"color:red;\">",
+											"<span style=\"color:red; \">",
+											"<span style=\"color:orange;\">",
+											"<span style=\"color:green;\">",
+											"&lt;1&gt;",
+											"</a>",
+											"<b>",
+											"</b>",
+											"\n<p>任務達成的注意事項見表格下方\n</p>",
+											"<p>",
+											"</p>"
+										};
+				#region 删除功能代码
+				for (int i = 0; i < _Del.Length; i++)
+					item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace(_Del[i], "");
+				//删除超链接，直到没有为止。
+				while (MyString.DelMidString(item.OtherInfoOfQuest, ref item.OtherInfoOfQuest, "<a href=\"", ">", true)) ;
+				while (MyString.DelMidString(item.OtherInfoOfQuest, ref item.OtherInfoOfQuest, "<span class=\"heimu\" title=\"你知道的太多了\">", "</span>", true)) ;
+				//由于删除“你知道的太多了”须要"</span>"来进行定位，故删除"</span>"放到最后执行。
+				item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace("</span>", "");
+
+				#endregion
+				#endregion
+
+				#region 2、再替换字符
+
+				//寻找_Replace_Scr中的字符串，替换成_Replace_Res的对应字符串
+				string[] _Replace_Scr = new string[] { "<br />", "<br>", "\n\n\n", "\n\n" };
+				string[] _Replace_Res = new string[] { "\n", "\n", "\n", "\n" };
+				for (int i = 0; i < _Replace_Scr.Length; i++)
+					item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace(_Replace_Scr[i], _Replace_Res[i]);
+
+				#endregion
+			}
+			#endregion
+			return true;
+		}
+
+		/// <summary>
+		/// 生成任务链信息
+		/// </summary>
+		/// <returns></returns>
+		private static bool MakeLink()
+		{
+			foreach (var item in Quests)
+			{
+				/// 任务类-额外信息原始字符串
+				string _tmp = item.OtherInfoOfQuest;
+				
+				/// 连接信息集合
+				Collection<Link> _links = new Collection<Link>();
+
+				#region 1、字符处理
+
+				#region 情况1：有指明具体任务的
+				string _HrefFlag = "<a href=\"https://zh.moegirl.org/%E8%88%B0%E9%98%9FCollection/%E4%BB%BB%E5%8A%A1";
+				_tmp = _tmp.Replace(_HrefFlag, "");
+
+				string _res = "";
+				int _tmpindex = 0;
+				while (MyString.GetMidString(_tmp, ref _res, "#", "\"", _tmpindex))
+				{
+					_tmpindex = _tmp.IndexOf("#",_tmpindex)+1;
+					//ID的长度不可能大于10
+					if(_res.Length<10)
+						_links.Add(new Link(_res, true));
+					_res = "";
+				}
+				#endregion
+				#region 情况2：具有 指向上一个任务的(似乎不需要这个情况)
+
+				#endregion
+				#region 情况3：纯文字说明
+				if (_links.Count == 0)
+				{
+					//TODO:纯文字实现
+				}
+				#endregion
+				#endregion
+
+				#region 2、不确定项的处理
+
+				string[] _UnSures = new string[] { "要確認","要确认", "待確認", "需要驗證",
+					"可能含有其他前置","達成後?","待确认","待验证", "达成后?" };
+				#region 找到不确定字符串
+				List<int> _UnSure_res = new List<int>();
+				foreach (var _UnSure in _UnSures)
+				{
+					for (int _index = 0; ;)
+					{
+						_index = _tmp.IndexOf(_UnSure, _index);
+						if (_index == -1)
+							break;
+						else
+						{
+							_UnSure_res.Add(_index);
+							_index += _UnSure.Length;
+						}
+					}
+				}
+				//默认排序是升序排序
+				//降序排序：_UnSure_res.Sort((x, y) => -x.CompareTo(y));
+				_UnSure_res.Sort();
+				#endregion
+
+				if (_UnSure_res.Count == 1 && _links.Count==1)
+				{
+					#region 单个前置任务的情况特殊处理
+					_links[0].isBelivable = false;
+					#endregion
+				}
+				else if (_UnSure_res.Count == 0) ;
+				else
+				{
+					#region 多个前置任务的情况
+
+					#region 找到任务ID（超链接）字符串
+
+					List<int> _LinkIndex_res = new List<int>();
+					foreach (var _link in _links)
+					{
+						for (int _index = 0; ;)
+						{
+							_index = _tmp.IndexOf("#" + _link.ID, _index);
+							if (_index == -1)
+								break;
+							else
+							{
+								_LinkIndex_res.Add(_index);
+								_index += ("#" + _link.ID).Length;
+							}
+						}
+					}
+					_LinkIndex_res.Sort();
+					#endregion
+
+					#region 通过 不确定 任务 两个位置List 来进行不确定连接的判断
+					int _count_un = 0;
+					int _count_linkindex = 0;
+					foreach (var _UnSure_res_item in _UnSure_res)
+					{
+						for (; _count_linkindex < _LinkIndex_res.Count;)
+						{
+							if (_LinkIndex_res[_count_linkindex] > _UnSure_res_item)
+							{
+								#region 不确定字串在开头，则全部链接都不确定。
+								if(_count_linkindex==0)
+								{
+									foreach (var _link in _links)
+										_link.isBelivable = false;
+									_count_linkindex = 0;
+									break;
+								}
+								#endregion
+								#region 剩下的，不确定字串向前结合
+								else
+								{
+									_links[_count_linkindex - 1].isBelivable = false;
+								}
+								#endregion
+								_count_linkindex++;
+								break;
+							}
+							else
+								_count_linkindex++;
+						}
+						if (_count_linkindex == 0)
+							break;
+						_count_un++;
+					}
+					#endregion
+
+					#endregion
+				}
+
+				#endregion
+
+				#region 3、生成链接
+				foreach (var _link in _links)
+				{
+					//设置当前任务的前置任务
+					item.LinkInfoOfQuest.preLinkInfo.Add(_link);
+					//设置当前任务的前置任务的后置任务
+					KanColleQuest hehe= FindByID(_link.ID);
+					hehe.LinkInfoOfQuest.nextLinkInfo.Add(new Link(item.ID, _link.isBelivable));
+				}
+				#endregion
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -241,8 +532,13 @@ namespace KanColleQuestViewer
 		/// </summary>
 		/// <param name="ID">任务ID字符串(不分大小写)</param>
 		/// <returns>KanColleQuest类型引用，没找到则为null。</returns>
-		public static KanColleQuest Find(string ID)
+		public static KanColleQuest FindByID(string ID)
 		{
+			foreach (var item in Quests)
+			{
+				if (ID.ToUpper() == item.ID.ToUpper())
+					return item;
+			}
 			return null;
 		}
 	}
@@ -289,6 +585,14 @@ namespace KanColleQuestViewer
 	{
 		public Collection<Link> preLinkInfo;
 		public Collection<Link> nextLinkInfo;
+		public bool isRoot;
+
+		public LinkInfo()
+		{
+			preLinkInfo = new Collection<Link>();
+			nextLinkInfo = new Collection<Link>();
+			isRoot = false;
+		}
 	}
 
 	class Link
@@ -296,7 +600,7 @@ namespace KanColleQuestViewer
 		public string ID;
 		public bool isBelivable;
 
-		public Link(string _ID,bool _isBelivable)
+		public Link(string _ID, bool _isBelivable)
 		{
 			ID = _ID;
 			isBelivable = _isBelivable;
