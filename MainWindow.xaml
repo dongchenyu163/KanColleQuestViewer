@@ -6,12 +6,24 @@
         xmlns:local="clr-namespace:KanColleQuestViewer"
         xmlns:diag="http://mindfusion.eu/diagramming/wpf" x:Class="KanColleQuestViewer.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="700">
-	<Grid>
-		<TextBox x:Name="Tx_Res" Margin="0,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" AcceptsReturn="True" Height="674"/>
-
-		<diag:DiagramView x:Name="View" Margin="0,689,0,0" VerticalAlignment="Top" Height="80" >
-			<diag:Diagram x:Name="graphss" Margin="0,50,0,0" VerticalAlignment="Top" Height="719"/>
-		</diag:DiagramView>
+        Title="MainWindow" Height="800" Width="1000">
+	<Grid Margin="0,0,0,0">
+		<Grid Margin="0,0,400,0" HorizontalAlignment="Left">
+			<diag:DiagramView x:Name="View" HorizontalAlignment="Left" >
+				<diag:Diagram x:Name="QuestGraph" HorizontalAlignment="Left" Margin="0,0,400,0" Bounds="0,0,1080,1920" Width="1077"/>
+			</diag:DiagramView>
+		</Grid>
+		<Grid Margin="0" Width="400" HorizontalAlignment="Right">
+			<TextBox x:Name="Tx_ID" Height="23" Margin="10,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" HorizontalAlignment="Left"/>
+			<TextBox x:Name="Tx_Name" HorizontalAlignment="Left" Height="26" Margin="10,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="276"/>
+			<TextBox x:Name="Tx_Rewards" Margin="10,259,10,0" TextWrapping="Wrap" VerticalAlignment="Top" AcceptsReturn="True" Height="87"/>
+			<TextBox x:Name="Tx_Detial" Margin="10,134,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" AcceptsReturn="True" Height="100"/>
+			<TextBox x:Name="Tx_Other" Margin="10,371,10,0" TextWrapping="Wrap" VerticalAlignment="Top" AcceptsReturn="True" Height="100"/>
+			<Label Content="任务编号" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+			<Label Content="任务名称" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top"/>
+			<Label Content="详细内容" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top"/>
+			<Label Content="报酬" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top"/>
+			<Label Content="备注" HorizontalAlignment="Left" Margin="10,346,0,0" VerticalAlignment="Top"/>
+		</Grid>
 	</Grid>
 </Window>

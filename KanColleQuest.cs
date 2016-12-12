@@ -11,6 +11,7 @@ namespace KanColleQuestViewer
 	{
 		public static Collection<KanColleQuest> Quests = new Collection<KanColleQuest>();
 		public static DateTime UpdateTime = new DateTime();
+
 		/// <summary>
 		/// 任务编号
 		/// </summary>
@@ -39,15 +40,9 @@ namespace KanColleQuestViewer
 
 		public LinkInfo LinkInfoOfQuest;
 
-		///// <summary>
-		///// 前置任务
-		///// </summary>
-		//Collection<KanColleQuest> preQuests;
-		///// <summary>
-		///// 后续会打开的任务
-		///// </summary>
-		//Collection<KanColleQuest> nextQuests;
-
+		/// <summary>
+		/// 构造函数
+		/// </summary>
 		public KanColleQuest(string ID,
 					string NameOfQuest,
 					string DetailOfQuest,
@@ -62,11 +57,116 @@ namespace KanColleQuestViewer
 			LinkInfoOfQuest = new LinkInfo();
 		}
 
+		#region 从HTTP中解析任务信息集 函数区域
 
+		private static string gs_Find_UpdateTime = "><u>";
+		private static string gs_Find_UpdateTime_end = "</u>";
+		private static string gs_Find_Quest = "<td id=\"";
+		private static string gs_Find_Quest_end = "</tr>";
+		private static string gs_UpdateTime = "";
+		public static bool UpdateQuests(string str_HTTP)
+		{
+			int _IndexSt = 0;
+			int _IndexEd = 0;
+			int _count = 0;
+			string _quest = "";
 
-		//
+			// 获取更新日期
+			MyString.GetMidString(str_HTTP,
+				ref gs_UpdateTime,
+				gs_Find_UpdateTime,
+				gs_Find_UpdateTime_end);
+			#region 将更新时间字符串转化为DateTime形变量
+			System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
+			//string utf8_string =	Encoding.Unicode.GetString(Encoding.Convert(
+			//						Encoding.UTF8, 
+			//						Encoding.Unicode, Encoding.UTF8.GetBytes(gs_UpdateTime)));
+			//string sss = "2016年12月03日21:33";
+			DateTime.TryParseExact(gs_UpdateTime, "yyyy年MM月dd日HH:mm（UTC+8）",
+				zhCN,
+				System.Globalization.DateTimeStyles.None,
+				out KanColleQuest.UpdateTime);
+			#endregion
+
+			while (true)
+			{
+				_IndexSt = str_HTTP.IndexOf(gs_Find_Quest, 0);//寻找st在src的位置，返回st第一个字符的位置。
+				_IndexSt += gs_Find_Quest.Length;//开始位置变更至末尾
+				_IndexEd = str_HTTP.IndexOf(gs_Find_Quest_end, _IndexSt);
+
+				if (_IndexSt == -1 || _IndexEd == -1)
+				{
+					break;
+				}
+
+				_count++;
+
+				_quest = str_HTTP.Substring(_IndexSt, _IndexEd - _IndexSt);
+
+				CreateStringToKanColleQuestClass(_quest);
+				//删除前面的字符。
+				str_HTTP = str_HTTP.Substring(_IndexEd);
+			}
+
+			#region 创建任务链
+			MakeLink();
+			#endregion
+
+			#region 将OtherInfoOfQuest里面的标签去掉
+			foreach (var item in Quests)
+			{
+				#region 1、先删除字符
+
+				string[] _Del = new string[]{   "<span lang=\"ja\">" ,
+											"<span style=\"color:blue;\">",
+											"<span style=\"color:pink;\">",
+											"<span style=\"color:red;\">",
+											"<span style=\"color:red; \">",
+											"<span style=\"color:orange;\">",
+											"<span style=\"color:green;\">",
+											"&lt;1&gt;",
+											"</a>",
+											"<b>",
+											"</b>",
+											"\n<p>任務達成的注意事項見表格下方\n</p>",
+											"<p>",
+											"</p>"
+										};
+				#region 删除功能代码
+				for (int i = 0; i < _Del.Length; i++)
+					item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace(_Del[i], "");
+				//删除超链接，直到没有为止。
+				while (MyString.DelMidString(item.OtherInfoOfQuest, ref item.OtherInfoOfQuest, "<a href=\"", ">", true)) ;
+				while (MyString.DelMidString(item.OtherInfoOfQuest, ref item.OtherInfoOfQuest, "<span class=\"heimu\" title=\"你知道的太多了\">", "</span>", true)) ;
+				//由于删除“你知道的太多了”须要"</span>"来进行定位，故删除"</span>"放到最后执行。
+				item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace("</span>", "");
+
+				#endregion
+				#endregion
+
+				#region 2、再替换字符
+
+				//寻找_Replace_Scr中的字符串，替换成_Replace_Res的对应字符串
+				string[] _Replace_Scr = new string[] { "<br />", "<br>", "\n\n\n", "\n\n" };
+				string[] _Replace_Res = new string[] { "\n", "\n", "\n", "\n" };
+				for (int i = 0; i < _Replace_Scr.Length; i++)
+					item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace(_Replace_Scr[i], _Replace_Res[i]);
+
+				#endregion
+			}
+			#endregion
+			return true;
+		}
+		#endregion
+
+		#region 解析任务信息 函数区域
+
 		static bool _isMulRow = false;
 		static string _tmpMulRow_str = "";
+		/// <summary>
+		/// 从小段任务字串解析出任务信息，并加至Quests中
+		/// </summary>
+		/// <param name="quest_str"></param>
 		public static void CreateStringToKanColleQuestClass(string quest_str)
 		{
 			string _split_1_st = "<td>", _split_1_ed = "</td>";
@@ -273,106 +373,7 @@ namespace KanColleQuestViewer
 										new Rewards(_Fu, _Bu, _Steel, _Ba, _OtherReward),
 										_OtherInfo));
 		}
-
-		private static string gs_Find_UpdateTime = "><u>";
-		private static string gs_Find_UpdateTime_end = "</u>";
-		private static string gs_Find_Quest = "<td id=\"";
-		private static string gs_Find_Quest_end = "</tr>";
- 
-		private static string gs_UpdateTime = "";
-		public static bool UpdateQuests(string str_HTTP)
-		{
-			int _IndexSt = 0;
-			int _IndexEd = 0;
-			int _count = 0;
-			string _quest = "";
-
-			// 获取更新日期
-			MyString.GetMidString(str_HTTP,
-				ref gs_UpdateTime,
-				gs_Find_UpdateTime,
-				gs_Find_UpdateTime_end);
-			#region 将更新时间字符串转化为DateTime形变量
-			System.Globalization.CultureInfo zhCN = new System.Globalization.CultureInfo("zh-CN");
-			//string utf8_string =	Encoding.Unicode.GetString(Encoding.Convert(
-			//						Encoding.UTF8, 
-			//						Encoding.Unicode, Encoding.UTF8.GetBytes(gs_UpdateTime)));
-			//string sss = "2016年12月03日21:33";
-			DateTime.TryParseExact(gs_UpdateTime, "yyyy年MM月dd日HH:mm（UTC+8）",
-				zhCN,
-				System.Globalization.DateTimeStyles.None,
-				out KanColleQuest.UpdateTime);
-			#endregion
-
-			while (true)
-			{
-				_IndexSt = str_HTTP.IndexOf(gs_Find_Quest, 0);//寻找st在src的位置，返回st第一个字符的位置。
-				_IndexSt += gs_Find_Quest.Length;//开始位置变更至末尾
-				_IndexEd = str_HTTP.IndexOf(gs_Find_Quest_end, _IndexSt);
-
-				if (_IndexSt == -1 || _IndexEd == -1)
-				{
-					break;
-				}
-
-				_count++;
-
-				_quest = str_HTTP.Substring(_IndexSt, _IndexEd - _IndexSt);
-
-				CreateStringToKanColleQuestClass(_quest);
-				//删除前面的字符。
-				str_HTTP = str_HTTP.Substring(_IndexEd);
-			}
-
-			#region 创建任务链
-			MakeLink();
-			#endregion
-
-			#region 将OtherInfoOfQuest里面的标签去掉
-			foreach (var item in Quests)
-			{
-				#region 1、先删除字符
-
-				string[] _Del = new string[]{   "<span lang=\"ja\">" ,
-											"<span style=\"color:blue;\">",
-											"<span style=\"color:pink;\">",
-											"<span style=\"color:red;\">",
-											"<span style=\"color:red; \">",
-											"<span style=\"color:orange;\">",
-											"<span style=\"color:green;\">",
-											"&lt;1&gt;",
-											"</a>",
-											"<b>",
-											"</b>",
-											"\n<p>任務達成的注意事項見表格下方\n</p>",
-											"<p>",
-											"</p>"
-										};
-				#region 删除功能代码
-				for (int i = 0; i < _Del.Length; i++)
-					item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace(_Del[i], "");
-				//删除超链接，直到没有为止。
-				while (MyString.DelMidString(item.OtherInfoOfQuest, ref item.OtherInfoOfQuest, "<a href=\"", ">", true)) ;
-				while (MyString.DelMidString(item.OtherInfoOfQuest, ref item.OtherInfoOfQuest, "<span class=\"heimu\" title=\"你知道的太多了\">", "</span>", true)) ;
-				//由于删除“你知道的太多了”须要"</span>"来进行定位，故删除"</span>"放到最后执行。
-				item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace("</span>", "");
-
-				#endregion
-				#endregion
-
-				#region 2、再替换字符
-
-				//寻找_Replace_Scr中的字符串，替换成_Replace_Res的对应字符串
-				string[] _Replace_Scr = new string[] { "<br />", "<br>", "\n\n\n", "\n\n" };
-				string[] _Replace_Res = new string[] { "\n", "\n", "\n", "\n" };
-				for (int i = 0; i < _Replace_Scr.Length; i++)
-					item.OtherInfoOfQuest = item.OtherInfoOfQuest.Replace(_Replace_Scr[i], _Replace_Res[i]);
-
-				#endregion
-			}
-			#endregion
-			return true;
-		}
+		#endregion
 
 		/// <summary>
 		/// 生成任务链信息
@@ -384,7 +385,7 @@ namespace KanColleQuestViewer
 			{
 				/// 任务类-额外信息原始字符串
 				string _tmp = item.OtherInfoOfQuest;
-				
+
 				/// 连接信息集合
 				Collection<Link> _links = new Collection<Link>();
 
@@ -398,9 +399,9 @@ namespace KanColleQuestViewer
 				int _tmpindex = 0;
 				while (MyString.GetMidString(_tmp, ref _res, "#", "\"", _tmpindex))
 				{
-					_tmpindex = _tmp.IndexOf("#",_tmpindex)+1;
+					_tmpindex = _tmp.IndexOf("#", _tmpindex) + 1;
 					//ID的长度不可能大于10
-					if(_res.Length<10)
+					if (_res.Length < 10)
 						_links.Add(new Link(_res, true));
 					_res = "";
 				}
@@ -441,7 +442,7 @@ namespace KanColleQuestViewer
 				_UnSure_res.Sort();
 				#endregion
 
-				if (_UnSure_res.Count == 1 && _links.Count==1)
+				if (_UnSure_res.Count == 1 && _links.Count == 1)
 				{
 					#region 单个前置任务的情况特殊处理
 					_links[0].isBelivable = false;
@@ -482,7 +483,7 @@ namespace KanColleQuestViewer
 							if (_LinkIndex_res[_count_linkindex] > _UnSure_res_item)
 							{
 								#region 不确定字串在开头，则全部链接都不确定。
-								if(_count_linkindex==0)
+								if (_count_linkindex == 0)
 								{
 									foreach (var _link in _links)
 										_link.isBelivable = false;
@@ -519,7 +520,7 @@ namespace KanColleQuestViewer
 					//设置当前任务的前置任务
 					item.LinkInfoOfQuest.preLinkInfo.Add(_link);
 					//设置当前任务的前置任务的后置任务
-					KanColleQuest hehe= FindByID(_link.ID);
+					KanColleQuest hehe = FindByID(_link.ID);
 					hehe.LinkInfoOfQuest.nextLinkInfo.Add(new Link(item.ID, _link.isBelivable));
 				}
 				#endregion
@@ -540,6 +541,49 @@ namespace KanColleQuestViewer
 					return item;
 			}
 			return null;
+		}
+
+		public static Collection<KanColleQuest> FindQuestChain(string ID)
+		{
+				Collection<KanColleQuest> _res = new Collection<KanColleQuest>();
+			if (FindByID(ID) == null)
+				return null;
+			else if (FindByID(ID).LinkInfoOfQuest.preLinkInfo.Count == 0)
+			{
+				_res.Add(FindByID(ID));
+				return _res;
+			}
+			else if (FindByID(ID).LinkInfoOfQuest.preLinkInfo.Count != 0)
+			{
+				Collection<KanColleQuest> _tmp_res = new Collection<KanColleQuest>();
+				foreach (var item in FindByID(ID).LinkInfoOfQuest.preLinkInfo)
+				{
+					_tmp_res = FindQuestChain(item.ID);
+					_res = Union(_res,_tmp_res);
+				}
+				_res.Add(FindByID(ID));
+				return _res;
+			}
+			else
+			{
+				return null;//以上的三个情况应该包含了全部。我也不知道这个是什么情况
+			}
+		}
+
+		/// <summary>
+		/// 在src的后面加上adder
+		/// </summary>
+		/// <param name="src"></param>
+		/// <param name="adder"></param>
+		/// <returns></returns>
+		private static Collection<KanColleQuest> Union(Collection<KanColleQuest> src,
+			Collection<KanColleQuest> adder)
+		{
+			foreach (var item in adder)
+			{
+				src.Add(item);
+			}
+			return src;
 		}
 	}
 
