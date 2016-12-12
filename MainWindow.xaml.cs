@@ -45,6 +45,12 @@ namespace KanColleQuestViewer
 			_res=KanColleQuest.FindQuestChain("F36");
 
 			Graph.DisplayALL(QuestGraph,_res);
+			
+		}
+
+		private static void DisplayToListBox(Collection<KanColleQuest> Data)
+		{
+
 		}
 	}
 }
