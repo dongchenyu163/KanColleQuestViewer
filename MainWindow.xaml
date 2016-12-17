@@ -16,11 +16,11 @@
 		<TabControl Margin="0" Width="400" HorizontalAlignment="Right">
 			<TabItem Header="详细查看">
 				<Grid Margin="0" Width="400" HorizontalAlignment="Right">
-					<TextBox x:Name="Tx_ID" Height="23" Margin="10,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" HorizontalAlignment="Left"/>
-					<TextBox x:Name="Tx_Name" Height="23" Margin="103,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="293" HorizontalAlignment="Left"/>
-					<TextBox x:Name="Tx_Rewards" Margin="10,199,239,0" TextWrapping="Wrap" VerticalAlignment="Top" AcceptsReturn="True" Height="87"/>
-					<TextBox x:Name="Tx_Detial" Margin="10,74,4,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" AcceptsReturn="True" Height="100"/>
-					<TextBox x:Name="Tx_Other" Margin="166,199,4,0" TextWrapping="Wrap" VerticalAlignment="Top" AcceptsReturn="True" Height="87"/>
+					<TextBox x:Name="TX_ID" Text="" Height="23" Margin="10,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" HorizontalAlignment="Left"/>
+					<TextBox Text="" x:Name="TX_Name" Height="23" Margin="103,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="293" HorizontalAlignment="Left"/>
+					<TextBox Text="" x:Name="TX_Rewards" Margin="10,199,239,0" TextWrapping="Wrap" VerticalAlignment="Top" AcceptsReturn="True" Height="87"/>
+					<TextBox Text="" x:Name="TX_Detial" Margin="10,74,4,0" TextWrapping="Wrap" VerticalAlignment="Top" AcceptsReturn="True" Height="100"/>
+					<TextBox Text=""  x:Name="TX_Other" Margin="166,199,4,0" TextWrapping="Wrap" VerticalAlignment="Top" AcceptsReturn="True" Height="87"/>
 					<Label Content="任务编号" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top"/>
 					<Label Content="任务名称" HorizontalAlignment="Left" Margin="103,1,0,0" VerticalAlignment="Top"/>
 					<Label Content="详细内容" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top"/>
@@ -28,11 +28,11 @@
 					<Label Content="备注" HorizontalAlignment="Left" Margin="166,174,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.471,0.52"/>
 
 					<ListBox x:Name="LB_Result" HorizontalAlignment="Left" Margin="10,411,0,0" Width="299"/>
-					<TextBox x:Name="TB_KeyWord" HorizontalAlignment="Left" Height="68" Margin="10,338,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="386"/>
+					<TextBox x:Name="TX_KeyWord" HorizontalAlignment="Left" Height="68" Margin="10,338,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="386"/>
 					<Label Content="输入查找关键字" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,308,0,0"/>
 					<Button x:Name="BT_Search" Content="查找" HorizontalAlignment="Left" Height="25" Margin="314,308,0,0" VerticalAlignment="Top" Width="82"/>
-					<Button x:Name="BT_Display" Content="显示任务链" HorizontalAlignment="Left" Height="25" Margin="314,411,0,0" VerticalAlignment="Top" Width="82"/>
-					<Button x:Name="BT_DisplayAll" Content="显示全部任务" HorizontalAlignment="Left" Height="25" Margin="314,471,0,0" VerticalAlignment="Top" Width="82"/>
+					<Button x:Name="BT_DisplayChain" Content="显示任务链" HorizontalAlignment="Left" Height="25" Margin="314,411,0,0" VerticalAlignment="Top" Width="82"/>
+					<Button x:Name="BT_DisplayChainAll" Content="显示全部任务" HorizontalAlignment="Left" Height="25" Margin="314,471,0,0" VerticalAlignment="Top" Width="82"/>
 					<Button x:Name="BT_ListOutAllQuests" Content="列出全部任务" HorizontalAlignment="Left" Height="25" Margin="314,441,0,0" VerticalAlignment="Top" Width="82"/>
 					<Button x:Name="BT_DisplayAll_Copy" Content="寻找甲板" HorizontalAlignment="Left" Height="25" Margin="314,517,0,0" VerticalAlignment="Top" Width="82"/>
 					<Button x:Name="BT_DisplayAll_Copy1" Content="寻找螺丝" HorizontalAlignment="Left" Height="25" Margin="314,547,0,0" VerticalAlignment="Top" Width="82"/>

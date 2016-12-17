@@ -33,12 +33,13 @@ namespace KanColleQuestViewer
 		/// </summary>
 		public string OtherInfoOfQuest;
 
-		/// <summary>
-		/// 开放条件是否确定
-		/// </summary>
-		public bool isSure = true;
-
 		public LinkInfo LinkInfoOfQuest;
+
+		private string _test;
+		public string test {
+			get { return _test; }
+			set { _test = value; }
+		}
 
 		/// <summary>
 		/// 构造函数
@@ -56,6 +57,7 @@ namespace KanColleQuestViewer
 			this.OtherInfoOfQuest = OtherInfoOfQuest;
 			LinkInfoOfQuest = new LinkInfo();
 		}
+		public KanColleQuest() { }
 
 		#region 从HTTP中解析任务信息集 函数区域
 
@@ -543,9 +545,40 @@ namespace KanColleQuestViewer
 			return null;
 		}
 
+		/// <summary>
+		/// 以关键字寻找对应的所有任务
+		/// </summary>
+		/// <param name="KeyWord"></param>
+		/// <returns></returns>
+		public static Collection<KanColleQuest> FindByKeyWord(string KeyWord)
+		{
+			Collection<KanColleQuest> _res = new Collection<KanColleQuest>();
+			foreach (var item in Quests)
+			{
+				if (KeyWord.ToUpper() == item.ID.ToUpper())
+					_res.Add(item);
+				else if (item.NameOfQuest.IndexOf(KeyWord) != -1)
+					_res.Add(item);
+				else if (item.DetailOfQuest.IndexOf(KeyWord) != -1)
+					_res.Add(item);
+				else if (item.RewardOfQuest.OtherRewards.IndexOf(KeyWord) != -1)
+					_res.Add(item);
+				else if (item.OtherInfoOfQuest.IndexOf(KeyWord) != -1)
+					_res.Add(item);
+				else
+					continue;
+			}
+			return _res;
+		}
+
+		/// <summary>
+		/// 递归寻找前置任务链
+		/// </summary>
+		/// <param name="ID"></param>
+		/// <returns></returns>
 		public static Collection<KanColleQuest> FindQuestChain(string ID)
 		{
-				Collection<KanColleQuest> _res = new Collection<KanColleQuest>();
+			Collection<KanColleQuest> _res = new Collection<KanColleQuest>();
 			if (FindByID(ID) == null)
 				return null;
 			else if (FindByID(ID).LinkInfoOfQuest.preLinkInfo.Count == 0)
@@ -559,7 +592,7 @@ namespace KanColleQuestViewer
 				foreach (var item in FindByID(ID).LinkInfoOfQuest.preLinkInfo)
 				{
 					_tmp_res = FindQuestChain(item.ID);
-					_res = Union(_res,_tmp_res);
+					_res = Union(_res, _tmp_res);
 				}
 				_res.Add(FindByID(ID));
 				return _res;
@@ -571,18 +604,29 @@ namespace KanColleQuestViewer
 		}
 
 		/// <summary>
-		/// 在src的后面加上adder
+		/// 合并两个Collection对象。
+		/// 以src为基础，把adder里面的元素加至src里面。
 		/// </summary>
 		/// <param name="src"></param>
 		/// <param name="adder"></param>
+		/// <param name="allowDuplicate">允许重复项；默认不允许</param>
 		/// <returns></returns>
 		private static Collection<KanColleQuest> Union(Collection<KanColleQuest> src,
-			Collection<KanColleQuest> adder)
+			Collection<KanColleQuest> adder,
+			bool allowDuplicate = false)
 		{
-			foreach (var item in adder)
-			{
-				src.Add(item);
-			}
+
+			if (allowDuplicate == true)
+				foreach (var item in adder)
+					src.Add(item);
+			else
+				foreach (var item in adder)
+				{
+					if (src.Contains(item))
+						continue;
+					else
+						src.Add(item);
+				}
 			return src;
 		}
 	}

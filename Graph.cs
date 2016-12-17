@@ -42,6 +42,9 @@ namespace KanColleQuestViewer
 			System.Windows.Rect _bound=new System.Windows.Rect(new System.Windows.Point(100,0),
 				new System.Windows.Size(50,24));
 
+			Graph.ClearAll();
+			gs_GraphData.Clear();
+
 			foreach (var item in Data)
 			{
 				var _newNode = Graph.Factory.CreateShapeNode(_bound);
